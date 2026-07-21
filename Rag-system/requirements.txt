@@ -1,0 +1,17 @@
+# ── Vector database & embeddings ──────────────────────────────────────────────
+chromadb>=0.5.0
+sentence-transformers>=2.2.0
+
+# ── LangChain core & integrations ─────────────────────────────────────────────
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-community>=0.3.0
+langchain-chroma>=0.1.0
+langchain-huggingface>=0.1.0
+langchain-google-genai>=2.0.0
+
+# ── Google Generative AI SDK (required by langchain-google-genai) ──────────────
+google-generativeai>=0.8.0
+
+# ── Misc utilities ────────────────────────────────────────────────────────────
+python-dotenv>=1.0.0

@@ -1,0 +1,8 @@
+# Simple Multimodal RAG - Dependencies
+# Core
+google-generativeai>=0.8.0
+chromadb>=0.5.0
+
+# PDF parsing (install one or both)
+PyMuPDF>=1.24.0              # Fallback parser — always works
+# magic-pdf                  # MinerU — uncomment if you have it installed

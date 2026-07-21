@@ -1,0 +1,36 @@
+
+install các thư viện cần thiết trong requirements.txt
+step:
+1. Tải paraphrase-multilingual-MiniLM-L12-v2 
+2. Thêm các file xml thiết bị cần chuyển sang json vào folder xml
+3. Tạo folder output nếu chưa có
+    - Nếu sản phẩm cùng loại như megallan thì sẽ chạy file extract-parameters.mjs bằng câu lệnh:
+node extract-parameters.mjs --xml="xml/config_Magellan-900i_DR9401800.xml" --out="output/config_Magellan-900i_DR9401800.json"
+    - Nếu sản phẩm handheld như PowerScan-PD9600 thì sẽ chạy file extract-parameters-handheld.mjs bằng câu lệnh:
+node extract-parameters-handheld.mjs --xml="xml/config_Powerscan-PD9630_610149566.xml" --out="output/config_Powerscan-PD9630_610149566.json"
+4. Tiến hành merge với file help
+    - Nếu sản phẩm cùng loại như megellan 
+    - Chạy file merge_config_frs.py
+    # Lưu ý : 
+    DATA4XML_DIR : là file chứa các json đã tạo ở bước 3 (KHÔNG ĐƯỢC ĐỂ FILE CỦA HANDHELD KHI CHẠY NÊN TẠO 1 FOLDER MỚI LÀ data4xml)
+    DATA_DIR : là file chứa help_frs đã được parse sang json
+    OUTPUT_DIR = nơi lưu data đã merge (nên để là merged_data4xml cùng file với handheld)
+    - Nếu sản phẩm là handheld
+    - Chạy file merge_config_2.0.py
+    # lưu ý:
+        Cấu hình :
+        --input: là folder chứa file json đã chạy ở bước 3
+        --output: nơi lưu data đã merge (nên để là merged_data4xml cùng file với các thiết bị trên)
+        --help_dir: nơi chứa các file help 2.0 đã được parse sang json
+5. Thêm trường metadata
+     Chạy file generate_rag_records.py bằng lệnh: 
+     python generate_rag_records.py --input-dir "merged_data4xml" --output-dir "rag_records_output"
+     # lưu ý:
+        merged_data4xml : folder chứa các file json đã merge của 2 loại thiết bị
+        rag_records_output : folder chứa các file sau khi thêm metadata
+6. Build vector database
+    # lưu ý:
+        Đọc file cấu hình trong def main()
+    Chạy file build_vector_db_from_records.py bằng lệnh:
+    python build_vector_db_from_records.py --json-dir "rag_records_output" --persist-dir "vectordb_merged" --reset
+7. Chạy python query_rag.py để thử (LƯU Ý: CẤU HÌNH DỰA THEO LÚC CẤU HÌNH VECTOR DATABASE)
